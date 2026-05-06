@@ -5,14 +5,9 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerData playerData;
     public float currentHP;
-
-    public GameObject bulletPrefab;
     // public float speed;
     private PlayerInput playerInput;
     private Vector2 moveInput;
-
-    private float attackInput;
-    private float previousAttackInput; // Variabel untuk menyimpan input serangan sebelumnya
 
     void Start()
     {
@@ -40,33 +35,11 @@ public class PlayerController : MonoBehaviour
         
         moveInput = playerInput.actions["Move"].ReadValue<Vector2>();
         Debug.Log(moveInput);
-        // Baca input serangan
-        attackInput = playerInput.actions["Attack"].ReadValue<float>();
 
         float h = moveInput.x;
         float v = moveInput.y;
 
         transform.Translate(new Vector3(h, v, 0) * playerData.moveSpeed * Time.deltaTime);
-
-        // Ini untuk mengecheck apakah tombol ditekan atau tidak
-        if (attackInput > 0)
-        {
-            Shoot();
-        }
-
-        previousAttackInput = attackInput; // Simpan input serangan saat ini untuk periksa pada frame berikutnya
-    }
-
-    void Shoot()
-    {
-        Debug.Log("Player shoots!");
-        // Implement shooting logic here (e.g., instantiate bullet, play animation)
-
-        if (bulletPrefab == null)
-        {
-            Debug.LogWarning("Bullet prefab not assigned!");
-            return;
-        }
     }
 
     void OnCollisionStay2D(Collision2D collision)
